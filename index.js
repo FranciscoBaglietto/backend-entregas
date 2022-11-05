@@ -42,24 +42,93 @@
 
 // console.log(objeto1.getBookNames());
 
-// Entrega 2 = Manejo de Arquivos
-
+//   Entrega 2 = Manejo de Arquivos
 const fs = require("fs");
 
 class Contenedor {
-  constructor(nombre) {
-    this.nombre = nombre;
+  constructor(ruta) {
+    this.ruta = ruta;
   }
 
-  save() {}
+  async save(obj) {
+    //obtengo todos los objetos
+    const listado = await this.getAll();
 
-  getById(id) {}
+    if (listado.length > 0 && listado.some((el) => el.title === obj.title)) {
+      console.log("El producto ya se encuentra en el catalogo");
+      return;
+    }
 
-  getAll() {}
+    //identificamos el ultimo id y lo incrementamos
+    let nuevoId; //= {};
 
-  deleteById(id) {}
+    if (listado.length == 0) {
+      nuevoId = 1;
+    }
+    //SI HAY DATA [...] [1] => 0
+    else {
+      nuevoId = listado[listado.length - 1].id + 1;
+    }
 
-  deleteAll() {}
+    //asignat el nuevo id a mi objeto
+    const nuevoObjetoConID = { ...obj, id: nuevoId };
+
+    //insertar mi obejto al listado
+    listado.push(nuevoObjetoConID);
+
+    try {
+      const data = await fs.promises.writeFile(
+        this.ruta,
+        JSON.stringify(listado, null, 2)
+      );
+      return nuevoId;
+    } catch (error) {
+      throw new Error(`Error al guardar el nuevo objeto: ${error}`);
+    }
+  }
+
+  //funcion para obtener objetos
+  async getAll() {
+    try {
+      const data = await fs.promises.readFile(this.ruta, "utf-8");
+      return JSON.parse(data);
+    } catch (error) {
+      return [];
+    }
+  }
+
+  async getById(id) {
+    try {
+      const listado = await this.getAll();
+      return listado.find((item) => item.id === id);
+    } catch (error) {
+      throw new Error(`No se encuentra el dato: ${error}`);
+    }
+  }
+
+  //eliminar objeto por ID
+
+  async deteleById(id) {
+    const listado = await this.getAll();
+    const nuevoListado = listado.filter((item) => item.id != id) ?? null;
+    try {
+      await fs.promises.writeFile(
+        this.ruta,
+        JSON.stringify(nuevoListado, null, 2)
+      );
+    } catch (error) {
+      throw new Error(`No se pudo borrar la data: ${error}`);
+    }
+  }
+
+  //Para borrar todo
+  async deleteAll() {
+    try {
+      await fs.promises.writeFile(this.ruta, JSON.stringify([], null, 2));
+    } catch (error) {
+      throw new Error(`No se encuentra el dato: ${error}`);
+    }
+  }
 }
 
-
+module.exports = Contenedor;
