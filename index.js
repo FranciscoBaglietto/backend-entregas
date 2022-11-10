@@ -42,7 +42,9 @@
 
 // console.log(objeto1.getBookNames());
 
-//   Entrega 2 = Manejo de Arquivos
+
+//        Entrega 2 = Manejo de Arquivos
+
 const fs = require("fs");
 
 class Contenedor {
@@ -102,7 +104,7 @@ class Contenedor {
       const listado = await this.getAll();
       return listado.find((item) => item.id === id);
     } catch (error) {
-      throw new Error(`No se encuentra el dato: ${error}`);
+      throw new Error(`No se encuentra el dato con ese id: ${error}`);
     }
   }
 
@@ -132,3 +134,4 @@ class Contenedor {
 }
 
 module.exports = Contenedor;
+

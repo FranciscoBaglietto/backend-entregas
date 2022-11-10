@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "title": "Telefono",
+    "precio": 100000,
+    "id": 1
+  },
+  {
+    "title": "Computadora",
+    "precio": 100000,
+    "id": 2
+  },
+  {
+    "title": "Teclado",
+    "precio": 100000,
+    "id": 3
+  }
+]

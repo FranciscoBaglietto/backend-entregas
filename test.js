@@ -29,16 +29,22 @@ async function main() {
   let id1 = await contenedor.save(item1);
   console.log(id1);
 
-  let busca1 = await contenedor.getById(1);
-  console.log(busca1);
+  let id2 = await contenedor.save(item2);
+  console.log(id2);
 
-  await contenedor.deteleById(1);
-  let detele1 = await contenedor.getAll();
-  console.log(detele1);
+  let id3 = await contenedor.save(item3);
+  console.log(id3);
 
-  await contenedor.deleteAll();
-  let borradoTodo = await contenedor.getAll();
-  console.log(borradoTodo);
+  // let busca1 = await contenedor.getById(1);
+  // console.log(busca1);
+
+  // await contenedor.deteleById(1);
+  // let detele1 = await contenedor.getAll();
+  // console.log(detele1);
+
+  // await contenedor.deleteAll();
+  // let borradoTodo = await contenedor.getAll();
+  // console.log(borradoTodo);
 }
 
 main();
