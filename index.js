@@ -42,7 +42,6 @@
 
 // console.log(objeto1.getBookNames());
 
-
 //        Entrega 2 = Manejo de Arquivos
 
 const fs = require("fs");
@@ -99,16 +98,16 @@ class Contenedor {
     }
   }
 
-      //obtener un objecto random del array
-      async getRandom() {
-        try {
-            const data = await fs.promises.readFile(this.ruta, 'utf8')
-            const parseData = JSON.parse(data)
-            return parseData[Math.floor(Math.random() * (parseData.length))]
-        } catch (error) {
-            return []
-        }
+  //obtener un objecto random del array
+  async getRandom() {
+    try {
+      const data = await fs.promises.readFile(this.ruta, "utf8");
+      const parseData = JSON.parse(data);
+      return parseData[Math.floor(Math.random() * parseData.length)];
+    } catch (error) {
+      return [];
     }
+  }
 
   async getById(id) {
     try {
@@ -145,4 +144,3 @@ class Contenedor {
 }
 
 module.exports = Contenedor;
-
