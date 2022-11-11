@@ -1,50 +1,23 @@
-const Contenedor = require("./index.js");
+const Contenedor = require('./index.js')
+const express = require('express')
 
-//datos de prueba
+const app = express()
+const PORT = 8080
 
-const item1 = {
-  title: "Telefono",
-  precio: 100000,
-  id: 1,
-};
+const contenedor = new Contenedor('./productos.txt')
 
-const item2 = {
-  title: "Computadora",
-  precio: 100000,
-  id: 2,
-};
 
-const item3 = {
-  title: "Teclado",
-  precio: 100000,
-  id: 3,
-};
+app.get('/', async (req, res)=>{
+    res.send('<h1>Redireccionar a las rutas /productos o /productosRandom</h1>')
+})
+app.get('/productos', async (req, res)=>{
+    res.send(await contenedor.getAll())
+})
+app.get('/productosRandom', async (req, res)=>{
+    res.send(await contenedor.getRandom())
+});
 
-async function main() {
-  const contenedor = new Contenedor("./productos.txt");
-
-  let datos = await contenedor.getAll();
-  console.log(datos);
-
-  let id1 = await contenedor.save(item1);
-  console.log(id1);
-
-  let id2 = await contenedor.save(item2);
-  console.log(id2);
-
-  let id3 = await contenedor.save(item3);
-  console.log(id3);
-
-  // let busca1 = await contenedor.getById(1);
-  // console.log(busca1);
-
-  // await contenedor.deteleById(1);
-  // let detele1 = await contenedor.getAll();
-  // console.log(detele1);
-
-  // await contenedor.deleteAll();
-  // let borradoTodo = await contenedor.getAll();
-  // console.log(borradoTodo);
-}
-
-main();
+//para evitar errores al desplegar el puerto mejor colocar la escucha al final
+const server = app.listen(PORT, ()=>{
+    console.log(`Escuchando ${PORT}`)
+})
