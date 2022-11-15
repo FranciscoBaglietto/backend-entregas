@@ -12,7 +12,7 @@ app.get("/", async (req, res) => {
 app.get("/productos", async (req, res) => {
   res.send(await contenedor.getAll());
 });
-app.get("/productosRandom", async (req, res) => {
+app.get("/productoRandom", async (req, res) => {
   res.send(await contenedor.getRandom());
 });
 
